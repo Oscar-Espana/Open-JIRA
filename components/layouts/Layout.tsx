@@ -1,7 +1,7 @@
 import { FC, ReactNode } from "react";
 import { Box } from "@mui/material";
 import Head from "next/head";
-import { Navbar } from "../ui";
+import { Navbar, Sidebar } from "../ui";
 
 interface Props {
   title?: string;
@@ -19,7 +19,7 @@ export const Layout: FC<Props> = ({ title = "Open Jira", children }) => {
         <title>{title}</title>
       </Head>
       <Navbar />
-      {/* Sidebar */}
+      <Sidebar />
       <Box sx={{ padding: "10px 20px" }}>{children}</Box>
     </Box>
   );
