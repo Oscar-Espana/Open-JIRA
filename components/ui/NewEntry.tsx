@@ -1,36 +1,63 @@
 import { Box, Button, TextField } from "@mui/material";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
+import { ChangeEvent, useState } from "react";
 
 export const NewEntry = () => {
+  const [isAdding, setIsAdding] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const [touched, setTouched] = useState(false);
+
+  const onTextFieldChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
+
+  const onSave = () => {
+    if (inputValue.length === 0) return;
+    console.log("inputValue", inputValue);
+  };
+
   return (
     <Box sx={{ marginBottom: 2 }}>
-      <Button
-        startIcon={<AddCircleOutlinedIcon />}
-        fullWidth
-        variant="outlined"
-      >
-        Agregar Tarea
-      </Button>
-      <TextField
-        fullWidth
-        sx={{ marginTop: 2, marginBottom: 1.5 }}
-        placeholder="Nueva entrada"
-        label="Nueva entrada"
-        autoFocus
-        multiline
-        helperText="Ingresa una nueva entrada"
-      />
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Button>Cancelar</Button>
+      {isAdding ? (
+        <>
+          <TextField
+            fullWidth
+            sx={{ marginBottom: 1.5 }}
+            placeholder="Nueva entrada"
+            label="Nueva entrada"
+            autoFocus
+            multiline
+            helperText={
+              inputValue.length <= 0 && touched && "Ingresa una nueva entrada"
+            }
+            error={inputValue.length <= 0 && touched}
+            value={inputValue}
+            onChange={onTextFieldChange}
+            onBlur={() => setTouched(true)}
+          />
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Button onClick={() => setIsAdding(false)}>Cancelar</Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              endIcon={<SaveOutlinedIcon />}
+              onClick={onSave}
+            >
+              Guardar
+            </Button>
+          </Box>
+        </>
+      ) : (
         <Button
+          startIcon={<AddCircleOutlinedIcon />}
+          fullWidth
           variant="outlined"
-          color="secondary"
-          endIcon={<SaveOutlinedIcon />}
+          onClick={() => setIsAdding(true)}
         >
-          Guardar
+          Agregar Tarea
         </Button>
-      </Box>
+      )}
     </Box>
   );
 };
