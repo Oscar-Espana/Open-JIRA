@@ -1,14 +1,20 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { db } from "../../database";
 
 type Data = {
-  name: string;
-  secret?: string;
+  message: string;
 };
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  console.log(process.env);
-  res.status(200).json({ name: "Example", secret: process.env.SECRET });
+  if (process.env.NODE_ENV === "production") {
+    return res.status(401).json({ message: "No tiene acceso a este servicio" });
+  }
+
+  await db.connect();
+
+  await db.disconnect();
+  res.status(200).json({ message: "Proceso realizado correctamente" });
 }

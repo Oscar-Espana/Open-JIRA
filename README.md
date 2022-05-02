@@ -1,4 +1,4 @@
-# Next.JS Open Jira Ap
+# Next.js Open Jira Ap
 
 Para correr localmente, se necesita la base de datos
 
@@ -13,3 +13,7 @@ docker-compose up -d
 ```
 mongodb://localhost:27017/entriesdb
 ```
+
+## Configurar las variables de entorno
+
+Renombrar el archivo **.env.template** a **.env**
